@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    {% endblock %}
+</head>
+<body style="margin: 0 auto; max-width: 1770px">
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; border-bottom: 1px solid black">
+            <h2 style="margin: 0 0 0 10px;">
+                <a href="{% url 'films' %}" style="text-decoration: none; color: black;background: yellowgreen;">
+                    Сайт база кино
+                </a>
+            </h2>
+            <div class="buttons">
+                {% if request.user.is_authenticated %}
+                <button>
+                    <a href="{% url 'logout' %}">
+                        Logout
+                    </a>
+                </button>
+            {% else %}
+                <button>
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+                </button>
+                <button>
+                    <a href="{% url 'registration' %}">
+                        Зарегистрироваться
+                    </a>
+                </button>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+    {% block review %}
+    {% endblock %}
+</body>
+</html>

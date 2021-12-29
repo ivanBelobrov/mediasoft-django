@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>{{ film }}</title>
+{% endblock %}
+{% block content %}
+    <h1>
+        {{ film }}({{ film.year }})
+    </h1>
+    <div class="film-info" style="margin-left: 20px">
+        {% if film.poster %}
+            <img src="{{ film.poster.url }}" alt="постер фильма {{ film.poster.url }}">
+        {% endif %}
+        <p style="font-size: 20px">
+            IMDB: <b>{{ imdb_rating }}</b>/10<br>
+            {% if request.user.is_authenticated %}
+                {% if voting_flag %}
+                    <form method="post" style="background: darkgray">
+                        {% csrf_token %}
+                        {{ rating_form.as_p}}
+                        <button type="submit">Оценить фильм</button>
+                    </form>
+                {% else %}
+                    <p>Вы уже оценили этот фильм</p>
+                {% endif %}
+            {% endif %}
+            Оценка пользователей: {% if rating%}<b>{{ rating }}</b>/5 по мнению {{ rating_amt }} пользователей
+            {% else %} Оценок еще нет {% endif %}<br>
+            Жанр: {{ film.genre }}<br>
+            Режиссер: {% for director in film.director.all %}| {{ director }} |{% endfor %}<br>
+            Актеры: {% for actor in film.actor.all %}| {{ actor }} |{% endfor %}
+        </p>
+    </div>
+{% endblock %}
+{% block review %}
+    <h3>
+        Рецензии к фильму "{{ film }}"
+    </h3>
+    <div class="film-review" style="margin-left: 20px">
+        {% if request.user.is_authenticated %}
+            <form method="post" style="background: darkgray;margin-bottom: 20px">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button type="submit">Отправить рецензию</button>
+        {% endif %}
+    </form>
+    {% if reviews %}
+        {% for review in reviews %}
+            <div class="review" style="display: flex; max-width: 500px; margin-bottom: 20px">
+                <div class="review-user" style="margin-right: 5px">
+                    {{ review.user }}:
+                </div>
+                <div class="review-text">
+                    {{ review.text }}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="margin-left: 20px">
+            Рецензий пока нет.
+        </p>
+    {% endif %}
+    </div>
+{% endblock %}
