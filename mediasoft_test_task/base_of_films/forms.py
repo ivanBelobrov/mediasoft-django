@@ -1,12 +1,13 @@
 from django import forms
 from django.forms import Textarea
 
-from .models import Film, FilmRating, FilmActor, FilmDirector, Review
+from .models import Film, FilmRating, Review, FilmParticipant
 
 
 class FilmFilterForm(forms.ModelForm):
-    actor = forms.ModelChoiceField(queryset=FilmActor.objects.all(), required=False)
-    director = forms.ModelChoiceField(queryset=FilmDirector.objects.all(), required=False)
+    actor = forms.ModelChoiceField(queryset=FilmParticipant.objects.filter(actor=True), required=False, label='Актер')
+    director = forms.ModelChoiceField(queryset=FilmParticipant.objects.filter(director=True), required=False,
+                                      label='Директор')
 
     class Meta:
         model = Film

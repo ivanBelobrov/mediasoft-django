@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Film, FilmDirector, FilmActor, FilmGenre, FilmRating
+from .models import Film, FilmParticipant, FilmGenre, FilmRating
 
 
 @admin.register(Film)
@@ -7,14 +7,9 @@ class AuthorAdmin(admin.ModelAdmin):
     list_display = ['id', 'title']
 
 
-@admin.register(FilmActor)
+@admin.register(FilmParticipant)
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ['id', 'first_name', 'last_name']
-
-
-@admin.register(FilmDirector)
-class AuthorAdmin(admin.ModelAdmin):
-    list_display = ['id', 'first_name', 'last_name']
+    pass
 
 
 @admin.register(FilmGenre)

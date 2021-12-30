@@ -23,12 +23,14 @@ class RegistrationUserView(View):
     @staticmethod
     def post(request):
         form = UserRegistrationForm(request.POST)
-        if form.is_valid():
+        if not form.is_valid():
+            return render(request, 'users/registration.html', context={'form': form})
+        else:
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('/base_of_films/films/')
-        return render(request, 'users/registration.html', context={'form': form})
+
 
