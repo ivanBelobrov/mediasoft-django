@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Список фильмов</title>
+{% endblock %}
+{% block content %}
+    <h1>Фильмы доступные на сайте</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ filter_form }}
+        <button type="submit">Найти фильмы</button>
+    </form>
+    <button>
+        <a href="{% url 'films' %}" style="text-decoration: none; color: black">
+            Сбросить фильтры
+        </a>
+    </button>
+    {% if films %}
+        <ul>
+        {% for film in films %}
+            <li>
+                <a href="/base_of_films/films/{{ film.id }}/" style="font-size: 20px; text-decoration: none">
+                    {{ film }}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p style="font-size: 20px">По вашему запросу ничего не найдено</p>
+    {% endif %}
+{% endblock %}
